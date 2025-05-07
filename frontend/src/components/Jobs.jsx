@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from './shared/Navbar'
-import FilterCard from './FilterCard'
+import React, { useEffect, useState } from 'react';
+import Navbar from './shared/Navbar';
+import FilterCard from './FilterCard';
 import Job from './Job';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-
-// const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const Jobs = () => {
     const { allJobs, searchedQuery } = useSelector(store => store.job);
@@ -13,51 +11,70 @@ const Jobs = () => {
 
     useEffect(() => {
         if (searchedQuery) {
+            const loc = searchedQuery.location?.trim().toLowerCase();
+            const ind = searchedQuery.industry?.trim().toLowerCase();
+            const sal = searchedQuery.salary;
+
             const filteredJobs = allJobs.filter((job) => {
-                return job.title.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-                    job.description.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-                    job.location.toLowerCase().includes(searchedQuery.toLowerCase())
-            })
-            setFilterJobs(filteredJobs)
+                const locationMatch = !searchedQuery.location ||
+                    (job.location && job.location.toLowerCase().includes(loc));
+
+                const industryMatch = !searchedQuery.industry ||
+                    (job.industry?.toLowerCase().includes(ind)) ||
+                    (job.title?.toLowerCase().includes(ind));
+
+                const salaryMatch = (() => {
+                    if (!sal) return true;
+                    const [min, max] = JSON.parse(sal);
+                    return job.salary >= min && job.salary <= max;
+                })();
+
+                return locationMatch && industryMatch && salaryMatch;
+            });
+
+            setFilterJobs(filteredJobs);
         } else {
-            setFilterJobs(allJobs)
+            setFilterJobs(allJobs);
         }
     }, [allJobs, searchedQuery]);
 
     return (
         <div>
             <Navbar />
-            <div className='max-w-7xl mx-auto mt-5'>
-                <div className='flex gap-5'>
-                    <div className='w-20%'>
+            <div className='max-w-7xl mx-auto mt-6 px-4'>
+                <div className='flex gap-6'>
+                    {/* Filter section */}
+                    <div className='w-[22%]'>
                         <FilterCard />
                     </div>
-                    {
-                        filterJobs.length <= 0 ? <span>Job not found</span> : (
-                            <div className='flex-1 h-[88vh] overflow-y-auto pb-5'>
-                                <div className='grid grid-cols-3 gap-4'>
+
+                    {/* Job cards */}
+                    <div className='w-[78%]'>
+                        {
+                            filterJobs.length === 0 ? (
+                                <p className='text-center text-gray-500 mt-10'>No jobs found matching your criteria.</p>
+                            ) : (
+                                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                                     {
                                         filterJobs.map((job) => (
                                             <motion.div
-                                                initial={{ opacity: 0, x: 100 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                exit={{ opacity: 0, x: -100 }}
+                                                key={job?._id}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
                                                 transition={{ duration: 0.3 }}
-                                                key={job?._id}>
+                                            >
                                                 <Job job={job} />
                                             </motion.div>
                                         ))
                                     }
                                 </div>
-                            </div>
-                        )
-                    }
+                            )
+                        }
+                    </div>
                 </div>
             </div>
-
-
         </div>
-    )
-}
+    );
+};
 
-export default Jobs
+export default Jobs;

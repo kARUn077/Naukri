@@ -67,11 +67,12 @@ const Signup = () => {
             navigate("/");
         }
     },[])
+
     return (
         <div>
             <Navbar />
             <div className='flex items-center justify-center max-w-7xl mx-auto'>
-                <form onSubmit={submitHandler} className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
+                <form onSubmit={submitHandler} className='w-1/2 border border-gray-400 rounded-md p-4 my-10'> {/* Lighter boundary color here */}
                     <h1 className='font-bold text-xl mb-5'>Sign Up</h1>
                     <div className='my-2'>
                         <Label>Full Name</Label>
@@ -80,7 +81,7 @@ const Signup = () => {
                             value={input.fullname}
                             name="fullname"
                             onChange={changeEventHandler}
-                            placeholder="patel"
+                            placeholder="xyz"
                         />
                     </div>
                     <div className='my-2'>
@@ -90,7 +91,7 @@ const Signup = () => {
                             value={input.email}
                             name="email"
                             onChange={changeEventHandler}
-                            placeholder="patel@gmail.com"
+                            placeholder="xyz@gmail.com"
                         />
                     </div>
                     <div className='my-2'>
@@ -100,7 +101,7 @@ const Signup = () => {
                             value={input.phoneNumber}
                             name="phoneNumber"
                             onChange={changeEventHandler}
-                            placeholder="8080808080"
+                            placeholder="0000000000"
                         />
                     </div>
                     <div className='my-2'>
@@ -110,7 +111,7 @@ const Signup = () => {
                             value={input.password}
                             name="password"
                             onChange={changeEventHandler}
-                            placeholder="patel@gmail.com"
+                            placeholder="xyz"
                         />
                     </div>
                     <div className='flex items-center justify-between'>

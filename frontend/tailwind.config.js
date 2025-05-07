@@ -1,19 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
+  darkMode: ["class"], // Dark mode based on the class
   content: [
-    './pages/**/*.{js,jsx}',
-    './components/**/*.{js,jsx}',
-    './app/**/*.{js,jsx}',
-    './src/**/*.{js,jsx}',
+    './pages/**/*.{js,jsx}', 
+    './components/**/*.{js,jsx}', 
+    './app/**/*.{js,jsx}', 
+    './src/**/*.{js,jsx}', // Adjust these paths to match your project structure
   ],
-  prefix: "",
+  prefix: "", // You can add a prefix if you want to namespace your classes
   theme: {
     container: {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1400px", // Adjust screen sizes if necessary
       },
     },
     extend: {
